@@ -8,19 +8,11 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-
+import Sidebar from '../sidebar/Sidebar';
+import Navbar from '../navbar/Navbar';
+import "../Plant Care/Platcare.css";
 const steps = [
-  {
-    label: 'Select campaign settings',
-    description: `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`,
-  },
-  {
-    label: 'Create an ad group',
-    description:
-      'An ad group contains one or more ads which target a shared set of keywords.',
-  },
+ 
   {
     label: 'Plant Care Name',
     content: (
@@ -69,7 +61,11 @@ export default function VerticalLinearStepper() {
     setActiveStep(0);
   };
 
-  return (
+  return (<div className='single'>
+ <Sidebar></Sidebar>
+  <div class='singleContainer'>
+    <Navbar/>
+    <div className='main-container'>
     <Box sx={{ maxWidth: 400 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
@@ -109,5 +105,8 @@ export default function VerticalLinearStepper() {
         </Paper>
       )}
     </Box>
+    </div>
+    </div>
+    </div>
   );
 }
