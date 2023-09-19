@@ -486,8 +486,8 @@ function AddCategory() {
         <Sidebar />
         <div class='singleContainer'>
           <Navbar />
-<div className='main-container'>
-          <Grid container spacing={2}>
+<div style={{paddingTop:"80px",paddingLeft:"150px"}}>
+          <Grid container >
             <Grid item xs={12} sm={6} md={4}>
               <TextField
                 placeholder="Add Main Category"
@@ -501,7 +501,7 @@ function AddCategory() {
                   },
                 }}
               />
-              <IconButton color="primary" onClick={handleSubmit}>
+              <IconButton color="success" onClick={handleSubmit}>
                 <PublishRoundedIcon />
               </IconButton>
 
@@ -514,7 +514,20 @@ function AddCategory() {
                     style={{
                       marginBottom: '10px',
                       width: '240px',
-                      backgroundColor: selectedCategory === category.name ? 'orange' : '',
+                      // color: 'green',
+                      borderColor: 'green',
+        // backgroundColor: 'transparent',
+                      backgroundColor: selectedCategory === category.name ? '#228f47' : '',
+                    }}
+                    sx={{
+                      '&:hover': {
+                        color: 'lightgreen',
+                        borderColor: 'lightgreen',
+                      },
+                      '&:active': {
+                        color: 'white !important',
+          backgroundColor: 'darkgreen',
+                      },
                     }}
                     size="small"
                     onClick={() => handleCategorySelect(category.name)}
@@ -522,7 +535,7 @@ function AddCategory() {
                     {category.name}
                   </Button>
                   <IconButton
-                    color="primary"
+                    color="success"
                     size="small"
                     onClick={() => {
                       setSelectedCategory(category.name);
@@ -550,7 +563,7 @@ function AddCategory() {
                   },
                 }}
               />
-              <IconButton onClick={handleSubmit2} color='primary'>
+              <IconButton onClick={handleSubmit2} color='success'>
                 <PublishRoundedIcon />
               </IconButton>
               <br /><br /><br />
@@ -561,7 +574,10 @@ function AddCategory() {
                     style={{
                       marginBottom: '10px',
                       width: '240px',
-                      backgroundColor: selectedSubcategory === subcategory.name ? 'orange' : '',
+                      backgroundColor: selectedSubcategory === subcategory.name ? '#228f47' : '',
+                       // color: 'green',
+                       borderColor: 'green',
+         
                     }}
                     size="small"
                     onClick={() => handleSubcategorySelect(subcategory.name)}
@@ -569,7 +585,7 @@ function AddCategory() {
                     {subcategory.name}
                   </Button>
                   <IconButton
-                    color="primary"
+                    color="success"
                     size="small"
                     onClick={() => {
                       setSelectedCategory(subcategory.name);
@@ -595,7 +611,7 @@ function AddCategory() {
                   },
                 }}
               />
-              <IconButton onClick={handleSubmit3} color='primary'>
+              <IconButton onClick={handleSubmit3} color='success'>
                 <PublishRoundedIcon />
               </IconButton>
               <br /><br /><br />
@@ -608,7 +624,9 @@ function AddCategory() {
                     style={{
                       marginBottom: '10px',
                       width: '240px',
-                      backgroundColor: selectedSubcategory === subcategory.name ? 'green' : '',
+                      backgroundColor: selectedSubcategory === subcategory.name ? '#228f47' : '',
+                       // color: 'green',
+                       borderColor: 'green',
                     }}
                     size="small"
                   >
@@ -621,6 +639,7 @@ function AddCategory() {
                       setSelectedCategory(subcategory.name);
                       setCategoryId(subcategory._id); // Set the category ID
                       openDialog2();// Open the dialog when the Edit button is clicked
+              
                     }}
                   >
                     <EditIcon />
