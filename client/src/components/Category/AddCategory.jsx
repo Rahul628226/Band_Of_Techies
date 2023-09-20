@@ -560,6 +560,7 @@ function AddCategory() {
                 InputProps={{
                   style: {
                     color: 'green',
+                    
                   },
                 }}
               />

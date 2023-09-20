@@ -11,7 +11,7 @@
   /* Styles for different screen sizes */
   @media (max-width: 600px) {
     .main-container {
-      padding-left: 100px;
+      padding-left: 60px;
       padding-right: 10px;
     }
   }
