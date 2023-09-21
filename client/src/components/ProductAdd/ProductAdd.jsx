@@ -3,7 +3,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextFi
 import Navbar from '../navbar/Navbar';
 import Sidebar from '../sidebar/Sidebar';
 import axios from 'axios';
-
+import Select from 'react-select';
 const ProductAdd = () => {
     const [plantcareNames, setPlantcareNames] = useState([]);
     const [selectedPlantcare, setSelectedPlantcare] = useState('');
@@ -13,7 +13,7 @@ const ProductAdd = () => {
         image: '',
     });
     const [featureNames, setFeatureNames] = useState([]);
-    const[featurenamesset,setFeatureNamesSet]=useState([]);
+    const [featurenamesset, setFeatureNamesSet] = useState([]);
     // Dialog state
     const [openDialog, setOpenDialog] = useState(false);
     const [newFeature, setNewFeature] = useState('');
@@ -33,6 +33,13 @@ const ProductAdd = () => {
         // Call the function to fetch feature names initially
         fetchFeatureNames();
     }, []);
+
+    const [selectedFeatures, setSelectedFeatures] = useState([]);
+
+    const handleFeatureChange = (selectedOptions) => {
+        setSelectedFeatures(selectedOptions);
+    };
+
 
     // Function to fetch feature names
     const fetchFeatureNames = () => {
@@ -82,30 +89,30 @@ const ProductAdd = () => {
         // Check if the new feature already exists in the list
         if (featureNames.some(feature => feature.name === newFeature)) {
             setMessage('Feature already exists.');
-           
+
             return;
         }
-    
+
         const dataToSend = {
-            name: newFeature, 
+            name: newFeature,
         };
-    
+
         // Send a POST request to your server endpoint
         axios.post('http://localhost:8080/addFeature', dataToSend)
             .then((response) => {
-                
+
                 setMessage('Feature added successfully');
-                fetchFeatureNames(); 
-    
-               
+                fetchFeatureNames();
+
+
                 handleCloseDialog();
             })
             .catch((error) => {
-                
+
                 setMessage('Error adding feature: ' + error.message);
             });
     };
-    
+
     return (
         <div className='single'>
             <Sidebar />
@@ -167,14 +174,13 @@ const ProductAdd = () => {
                             {/* Features Section */}
                             <h2>Features</h2>
 
-                            <select>
-                                <option value="">Select an option</option>
-                                {featureNames.map((name, index) => (
-                                    <option key={index} value={name}>
-                                        {name.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <Select
+                                isMulti  // Enable multi-select
+                                options={featureNames.map((name) => ({ value: name.name, label: name.name }))}
+                                value={selectedFeatures} // Use an array of selected features here
+                                onChange={handleFeatureChange} // Define a function to handle feature selection
+                            />
+
                             <Button onClick={handleOpenDialog}>Add</Button>
                             <p>{message}</p> {/* Display the message here */}
                             <hr />
