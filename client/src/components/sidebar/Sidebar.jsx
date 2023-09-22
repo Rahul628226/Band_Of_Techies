@@ -58,10 +58,12 @@ const Sidebar = () => {
             <span>Add Product</span>
           </li>
           </Link>
+          <Link to="/adddemo" style={{ textDecoration: "none" }}>
           <li>
             <LocalShippingIcon className="icon" />
             <span>Delivery</span>
           </li>
+          </Link>
           <p className="title">USEFUL</p>
           <li>
             <InsertChartIcon className="icon" />

@@ -13,6 +13,7 @@ import Signup from "./components/Singup";
 import AddCategory from "./components/Category/AddCategory";
 import Addplantcare from "./components/Plant Care/Plantcare";
 import ProductAdd from "./components/ProductAdd/ProductAdd";
+import Demo from "./components/ProductAdd/Demo";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
   const user = localStorage.getItem("token");
@@ -27,6 +28,7 @@ function App() {
         <Route path="/addCategory" element={<AddCategory/>} />
 			  <Route path="/addplantcare" element={<Addplantcare/>} />
         <Route path="/addAddProduct" element={<ProductAdd/>} />
+        <Route path="/adddemo" element={<Demo/>}/>
         </Routes>
       </BrowserRouter>
     </div>

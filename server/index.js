@@ -15,6 +15,7 @@ const categoryRoutes = require("./routes/Category/Categories");
 const subCategoryRoutes = require("./routes/Category/subCategories");
 const plantcareRoutes = require("./routes/Plantcare/Plantcare");
 const featureTagRoutes=require("./routes/featureTag/featureTag");
+const addProductRouter=require("./routes/AddProduct/AddProduct")
 // Database connection
 connection();
 
@@ -30,6 +31,7 @@ app.use("/", categoryRoutes);
 app.use("/", subCategoryRoutes);
 app.use("/", plantcareRoutes);
 app.use("/",featureTagRoutes);
+app.use("/",addProductRouter);
 // Serve static images
 app.use('/Image', express.static(path.join(__dirname, 'Image')));
 

@@ -11,18 +11,22 @@ import TextField from '@mui/material/TextField';
 import Sidebar from '../sidebar/Sidebar';
 import Navbar from '../navbar/Navbar';
 import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import { Grid } from '@mui/material';
 import '../Category/single.scss';
 
+
 const steps = [
   {
-    label: 'Plant Care Name',
+    label: 'Care Name',
   },
   {
-    label: 'Plant Care Photo',
+    label: 'Image',
   },
   {
-    label: 'Plant Care Description',
+    label: 'Description',
   },
 ];
 
@@ -85,7 +89,7 @@ function PlantcareForm() {
   const handleDropdownChange = (event) => {
     const selectedPlantcareName = event.target.value;
     setSelectedPlantcare(selectedPlantcareName);
-  
+
     // Find the corresponding PlantCare by name and set its data in plantcareData
     const selectedPlantcareItem = plantcareNames.find((plantcare) => plantcare.name === selectedPlantcareName);
     if (selectedPlantcareItem) {
@@ -101,7 +105,7 @@ function PlantcareForm() {
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
     setSelectedImage(URL.createObjectURL(selectedFile)); // Update the image preview
-  
+
     // Update the image data in plantcareData
     setPlantcareData({
       ...plantcareData,
@@ -117,15 +121,15 @@ function PlantcareForm() {
       if (plantcareData.image) {
         formDataToSend.append('image', plantcareData.image);
       }
-  
+
       const response = await axios.put(`http://localhost:8080/updatePlantcare/${plantcareData.name}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-  
+
       console.log(response.data);
-  
+
       // Reset the form and stepper
       handleReset();
     } catch (error) {
@@ -134,7 +138,7 @@ function PlantcareForm() {
   };
 
 
-  
+
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -201,43 +205,54 @@ function PlantcareForm() {
       <Sidebar></Sidebar>
       <div className='singleContainer'>
         <Navbar />
-        <Grid container spacing={2} style={{ paddingTop: "70px", paddingLeft: "50px" }}>
+        <Grid container spacing={2} style={{
+          paddingTop: "70px",
+          paddingLeft: "50px",
+          paddingRight: "50px", // Add right padding for balance
+          marginLeft: "auto", // Center the container horizontally
+          marginRight: "auto", // Center the container horizontally
+          maxWidth: "100%", // Ensure the container doesn't exceed the viewport width
+        }}>
           {/* First Column */}
-          <Grid item xs={12} sm={6} md={6}>
+
+          <Grid item xs={12} sm={6} md={6} >
             <Paper elevation={3}>
               <div>
-                <Box sx={{ maxWidth: 400 }}>
-                  <Stepper activeStep={activeStep} orientation="vertical">
+                <Box sx={{ maxWidth: 200 }} style={{ width: 400, height: 400, paddingTop: '10px', padddingLeft: '100px', overflowY: 'auto', maxHeight: '630px' ,maxWidth:'630px'}}>
+                  <Stepper activeStep={activeStep} orientation="vertical" >
                     {steps.map((step, index) => (
                       <Step key={step.label}>
-                        <StepLabel>{step.label}</StepLabel>
-                        <StepContent>
-                          <Typography>{step.label === 'Plant Care Name' ? ' ' : step.label === 'Plant Care Photo' ? 'Upload Photo' : ' '}</Typography>
+                        <StepLabel  >{step.label}</StepLabel>
+                        <StepContent >
+                          <Typography >{step.label === 'Care Name' ? ' ' : step.label === 'Image' ? 'Upload Photo' : ' '}</Typography>
                           <div  >
-                            {step.label === 'Plant Care Name' && (
+                            {step.label === 'Care Name' && (
                               <TextField
                                 id="name"
                                 label="Name"
                                 variant="outlined"
+                                color="success"
+
                                 fullWidth
                                 value={formData.name}
                                 onChange={handleChange}
                               />
                             )}
-                            {step.label === 'Plant Care Photo' && (
+                            {step.label === 'Image' && (
                               <div>
                                 <input
                                   type="file"
                                   id="photo"
                                   accept="image/*"
                                   onChange={handleChange}
+                                  color="success"
                                 />
                                 {tempImage && (
                                   <img src={tempImage} alt="Uploaded" style={{ maxWidth: '100%', marginTop: '10px' }} />
                                 )}
                               </div>
                             )}
-                            {step.label === 'Plant Care Description' && (
+                            {step.label === 'Description' && (
                               <TextField
                                 id="description"
                                 label="Description"
@@ -247,16 +262,17 @@ function PlantcareForm() {
                                 rows={4}
                                 value={formData.description}
                                 onChange={handleChange}
+                                color="success"
                               />
                             )}
                           </div>
-                          <Box sx={{ mb: 2 }}>
+                          <Box sx={{ mb: 2 }} >
                             <div>
                               {index === steps.length - 1 ? (
                                 <Button
                                   variant="contained"
                                   onClick={clickHandler}
-                                  sx={{ mt: 1, mr: 1 }}
+                                  sx={{ mt: 1, mr: 1, backgroundColor: '#66BF84', '&:hover': { backgroundColor: '#4D995D' } }}
                                 >
                                   Submit
                                 </Button>
@@ -264,18 +280,20 @@ function PlantcareForm() {
                                 <Button
                                   variant="contained"
                                   onClick={handleNext}
-                                  sx={{ mt: 1, mr: 1 }}
+                                  sx={{ mt: 1, mr: 1, backgroundColor: '#66BF84', '&:hover': { backgroundColor: '#4D995D' } }}
                                 >
                                   Continue
                                 </Button>
                               )}
-                              <Button
+                              <IconButton
                                 disabled={index === 0}
                                 onClick={handleBack}
-                                sx={{ mt: 1, mr: 1 }}
+                                sx={{ mt: 1, mr: 1, backgroundColor: '#66BF84' }}
+                                color="primary" // Change the color as needed
                               >
-                                Back
-                              </Button>
+                                <ArrowBackIcon />
+                              </IconButton>
+
                             </div>
                           </Box>
                         </StepContent>
@@ -285,7 +303,7 @@ function PlantcareForm() {
                   {activeStep === steps.length && (
                     <Paper square elevation={0} sx={{ p: 3 }}>
                       <Typography>All steps completed - you&apos;re finished</Typography>
-                      <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                      <Button onClick={handleReset} sx={{ mt: 1, mr: 1, backgroundColor: '#66BF84', '&:hover': { backgroundColor: '#4D995D' } }}>
                         Reset
                       </Button>
                     </Paper>
@@ -295,53 +313,80 @@ function PlantcareForm() {
             </Paper>
           </Grid>
 
-          {/* Third Column */}
-          <Grid item xs={12} sm={12} md={4}>
-            <Paper elevation={3}>
-              <div>
-                <label>Select PlantCare:</label>
-                <select value={selectedPlantcare} onChange={handleDropdownChange}>
-                  <option value="">Select an option</option>
-                  {plantcareNames.map((name, index) => (
-                    <option key={index} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
+          {/* second Column */}
+          <Grid item xs={12} sm={12} md={6} lg={4} >
 
-                {selectedPlantcare && (
-                  <div>
-                    <h2>{plantcareData.name}</h2>
-                    <img
-                      src={selectedImage || plantcareData.image}
-                      alt="plantcare"
-                      style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                    />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Paper elevation={2}>
+                <div> <Box style={{ width: 300, height: 400, paddingTop: '15px', paddingLeft: '15px',overflowY: 'auto', maxHeight: '630px' }}>
+                  <label style={{paddingTop:'20px'}}>Select Care:</label>
+                  <select value={selectedPlantcare} onChange={handleDropdownChange} >
+                    <option value="">Select an option</option>
+                    {plantcareNames.map((name, index) => (
+                      <option key={index} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
 
+                  {selectedPlantcare && (
                     <div>
-                      <label>Edit Description:</label>
-                      <input
-                        type="text"
-                        id="description"
-                        value={plantcareData.description}
-                        onChange={(e) => setPlantcareData({ ...plantcareData, description: e.target.value })}
-                      />
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img
+                          src={selectedImage || plantcareData.image}
+                          alt="plantcare"
+                          style={{
+                            width: '100px',
+                            height: '100px',
+                            objectFit: 'cover',
+                            borderRadius: '50%',
+                          }}
+                        />
+                        <h2 style={{ marginLeft: '10px' }}>{plantcareData.name}</h2>
+                      </div>
+                      <div>
+                        <label htmlFor="upload-button">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            component="label"
+                            sx={{ mt: 1, mr: 1, backgroundColor: '#66BF84', '&:hover': { backgroundColor: '#4D995D' } }}
+                          >
+                            Upload Image
+                            <input
+                              type="file"
+                              accept="image/*"
+                              id="upload-button"
+                              style={{ display: 'none' }}
+                              onChange={handleImageChange}
+                            />
+                          </Button>
+                        </label>
+                        <div>
+                          <label>Description:</label>
+                          <textarea
+                            id="description"
+                            value={plantcareData.description}
+                            onChange={(e) => setPlantcareData({ ...plantcareData, description: e.target.value })}
+                            rows={6}
+                            cols={25}
+                          />
+                        </div>
+
+                        <Button variant="contained" sx={{ mt: 1, mr: 1, backgroundColor: '#66BF84', '&:hover': { backgroundColor: '#4D995D' } }} onClick={handleUpdate}>Edit</Button>
+
+                      </div>
+
+
+
                     </div>
 
-                    <div>
-                      <label>Upload Image:</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                      />
-                    </div>
+                  )}
 
-                    <button onClick={handleUpdate}>Edit</button>
-                  </div>
-                )}
-              </div>
-            </Paper>
+                </Box>
+                </div>
+              </Paper>
+            </div>
           </Grid>
         </Grid>
       </div>
