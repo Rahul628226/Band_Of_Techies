@@ -147,25 +147,39 @@ const ProductAdd = () => {
         setSelectedFiles(updatedFiles);
     };
 
+    const handleTagInputChange = (selectedOptions) => {
+        // Handle file input change (browsing method)
+        // const newFiles = Array.from(selectedOptions);
+        // setSelectedFeatures([...selectedFeatures, ...newFiles]);
+    };
+
     const uploadFiles = async () => {
         try {
             const formData = new FormData();
             selectedFiles.forEach((file) => {
                 formData.append('photos', file);
             });
-            formData.append('FeatureTag', selectedTags.map(tag => tag.value));
-          
+    
+            // Append the selected feature tags to the formData as an array
+            // const selectedFeatureTags = selectedFeatures.map(tag => tag.value);
+            // formData.append('FeatureTag', JSON.stringify(selectedFeatureTags));
 
+            const selectedFeatureNames = selectedFeatures.map((feature) => feature.value);
+    
             // Send a POST request to your server endpoint to upload files
             await axios.post('http://localhost:8080/addProduct', formData, {
                 params: {
-                    title: productTitle, maincategory: selectedCategory, category: selectedsubCategory,
-                    subcategory: selectedsubCategory2, stock: productStock
+                    title: productTitle,
+                    maincategory: selectedCategory,
+                    category: selectedsubCategory,
+                    subcategory: selectedsubCategory2,
+                    stock: productStock,
+                    FeatureTag:selectedFeatureNames,
                 },
             });
-
+    
             // Reset selected files and show success message
-            setSelectedFiles([]);
+            setSelectedFeatures([]);
             setProductTitle('');
             setSelectedCategory('');
             setSelectedsubCategory('');
@@ -177,7 +191,8 @@ const ProductAdd = () => {
             setMessage('Error uploading files: ' + error.message);
         }
     };
-
+    
+    
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: 'image/*', // You can specify the accepted file types here
@@ -252,11 +267,7 @@ const ProductAdd = () => {
     const [productStock, setProductStock] = useState('');
 
     const [selectedTags, setSelectedTags] = useState([]);
-    const handleTagInputChange = (e) => {
-        // Handle file input change (browsing method)
-        const newFiles = Array.from(e.target.value);
-        setSelectedTags([...selectedTags, ...newFiles]);
-    };
+    
 
 
     {/*****************************************PRODUCT CATEGORY***********************************************************/ }
@@ -479,14 +490,13 @@ const ProductAdd = () => {
                                 <h2>Features</h2>
 
                                 <Select
-                                    isMulti
-                                    options={featureNames.map((name) => ({ value: name.name, label: name.name }))}
-                                    value={selectedFeatures}
-                                    onChange={(selectedOptions) => {
-                                        handleFeatureChange(selectedOptions);
-                                        handleTagInputChange(selectedFeatures); // You can pass selectedOptions or any other data you need
-                                    }}
-                                />
+        isMulti
+        options={featureNames.map((name) => ({ value: name.name, label: name.name }))}
+        value={selectedFeatures}
+        onChange={(selectedOptions) => {
+          handleFeatureChange(selectedOptions);
+        }}
+      />
 
                                 <Button onClick={handleOpenDialog}>Add</Button>
                                 <p>{message}</p> {/* Display the message here */}
